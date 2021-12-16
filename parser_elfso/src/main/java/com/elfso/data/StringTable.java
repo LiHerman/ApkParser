@@ -2,8 +2,11 @@ package com.elfso.data;
 
 import com.elfso.stream.ElfStreamer;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import sun.nio.cs.UTF_8;
 
 /**
  *
@@ -39,9 +42,14 @@ public class StringTable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("String table:\n");
-        for (int i=0; i<strs.length; ++i) {
-            builder.append(i).append(":").append(strs[i]).append('\n');
+        if(strs!=null && strs.length>0) {
+            builder.append("String table:\n");
+            for (int i=0; i<strs.length; ++i) {
+                builder.append(i).append(":").append(strs[i]).append('\n');
+            }
+            builder.deleteCharAt(builder.length()-1);
+        } else {
+            builder.append("String table: is empty");
         }
         return builder.toString();
     }

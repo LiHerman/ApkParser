@@ -95,6 +95,25 @@ public class RandomAccessStreamer {
         return ret;
     }
 
+    protected long readUnsigned64Int(Endian endian) {
+        byte[] buf = read(8);
+        long ret = 0;
+        if (endian == Endian.Little) {
+            for (int i=7; i>=0; --i) {
+                ret <<= 8;
+                ret |= (buf[i] & 0xff);
+            }
+        } else {
+            for (int i=0; i<=8; ++i) {
+                ret <<= 8;
+                ret |= (buf[i] & 0xff);
+            }
+        }
+        return ret;
+    }
+
+
+
     protected int readSignedInt(Endian endian) {
         byte[] buf = read(4);
         int ret = 0;

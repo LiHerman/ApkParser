@@ -17,14 +17,21 @@ public abstract class ElfStreamer extends RandomAccessStreamer {
     // unsigned int addr 4byte
     public abstract long readElf32Addr();
 
+    // unsigned int addr 8byte
+    public abstract long readElf64Addr();
+
     // unsigned short half 2byte
     public abstract int readElf32Half();
 
     // unsinged int off 4byte
     public abstract long readElf32Off();
 
+    // unsinged int off 8byte
+    public abstract long readElf64Off();
+
     // signed int 4byte
     public abstract int readElf32Sword();
+
 
     // unsigned int 4byte
     public abstract long readElf32Word();

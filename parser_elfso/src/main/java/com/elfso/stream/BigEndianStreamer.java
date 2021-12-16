@@ -41,4 +41,14 @@ public class BigEndianStreamer extends ElfStreamer {
     public char readUChar() {
         return super.readChar8(Endian.Big);
     }
+
+    @Override
+    public long readElf64Addr() {
+        return super.readUnsigned64Int(Endian.Big);
+    }
+
+    @Override
+    public long readElf64Off() {
+        return super.readUnsigned64Int(Endian.Big);
+    }
 }

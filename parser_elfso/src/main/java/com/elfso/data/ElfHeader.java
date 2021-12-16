@@ -11,6 +11,7 @@ import com.elfso.stream.ElfStreamer;
 public class ElfHeader {
 
     public static final int LENGTH = 0x34;
+    public static final int LENGTH64 = 0x40;
 
     // e_type
     public static final int ET_NONE = 0;
@@ -69,6 +70,25 @@ public class ElfHeader {
         header.e_entry = s.readElf32Addr();
         header.e_phoff = s.readElf32Off();
         header.e_shoff = s.readElf32Off();
+        header.e_flags = s.readElf32Word();
+        header.e_ehsize = s.readElf32Half();
+        header.e_phentsize = s.readElf32Half();
+        header.e_phnum = s.readElf32Half();
+        header.e_shentsize = s.readElf32Half();
+        header.e_shnum = s.readElf32Half();
+        header.e_shstrndx = s.readElf32Half();
+        return header;
+    }
+
+    public static ElfHeader parseFrom64(ElfStreamer s) {
+        ElfHeader header = new ElfHeader();
+        header.e_indent = Eident.parseFrom(s.read(Eident.EI_NIDENT));
+        header.e_type = s.readElf32Half();
+        header.e_machine = s.readElf32Half();
+        header.e_version = s.readElf32Word();
+        header.e_entry = s.readElf64Addr();
+        header.e_phoff = s.readElf64Off();
+        header.e_shoff = s.readElf64Off();
         header.e_flags = s.readElf32Word();
         header.e_ehsize = s.readElf32Half();
         header.e_phentsize = s.readElf32Half();

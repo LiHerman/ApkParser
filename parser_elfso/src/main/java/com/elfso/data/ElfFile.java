@@ -46,7 +46,12 @@ public class ElfFile {
         }
 
         // Elf header
-        elfHeader = parseHeader(racFile);
+        if(eident.ei_class == Eident.ELFCLASS32) {
+            elfHeader = parseHeader(racFile);
+        } else {
+            elfHeader = parseHeader64(racFile);
+        }
+//       elfHeader = parseHeader(racFile);
 
         // Program headers
         programHeaders = parseProgramHeader(racFile);
@@ -58,8 +63,7 @@ public class ElfFile {
         shStringTable = parseShStringTable(racFile);
 
         completeElfDetails(racFile);
-
-        LogUtil.i(TAG, "Parse end!\n");
+        LogUtil.i(TAG, "shStringTable = "+shStringTable.toString());
     }
 
     @Override
@@ -101,6 +105,17 @@ public class ElfFile {
         racFile.read(bytes, 0, bytes.length);
         mStreamer.use(bytes);
         ElfHeader header = ElfHeader.parseFrom(mStreamer);
+        racFile.seek(old);
+        return header;
+    }
+
+    private ElfHeader parseHeader64(RandomAccessFile racFile) throws IOException {
+        long old = racFile.getFilePointer();
+        racFile.seek(0);
+        byte[] bytes = new byte[ElfHeader.LENGTH64];
+        racFile.read(bytes, 0, bytes.length);
+        mStreamer.use(bytes);
+        ElfHeader header = ElfHeader.parseFrom64(mStreamer);
         racFile.seek(old);
         return header;
     }
